@@ -37,7 +37,7 @@ const { brand, darkLight, primary } = Colors;
 //keyboard avoiding wrapper
 import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
-const Login = () => {
+const Login = ({navigation}) => {
 
     const [hidePassword, setHidePassword] = useState(true);
 
@@ -53,6 +53,7 @@ const Login = () => {
                     initialValues={{email: '', password: ''}}
                     onSubmit={(values) => {
                         console.log(values);
+                        navigation.navigate("Welcome");
                     }}
                 >{({handleChange, handleBlur, handleSubmit, values}) => (<StyledFormArea>
                     <MyTextInput 
@@ -81,20 +82,17 @@ const Login = () => {
                     />
 
                     <MsgBox>...</MsgBox>
-
                     <StyledButton onPress={handleSubmit}>
                         <ButtonText>Login</ButtonText>
                     </StyledButton>
-
                     <Line />
-
                     <StyledButton google={true} onPress={handleSubmit}>
                         <Fontisto name="google" color={primary} size={25}/>
                         <ButtonText google={true}>Sign in with Google</ButtonText>
                     </StyledButton>
                     <ExtraView>
                         <ExtraText>Don't have an account already? </ExtraText>
-                        <TextLink>
+                        <TextLink onPress={() => navigation.navigate("Signup")}>
                             <TextLinkContent>Signup</TextLinkContent>
                         </TextLink>
                     </ExtraView>
