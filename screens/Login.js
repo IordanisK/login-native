@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 
@@ -6,17 +6,43 @@ import { View } from 'react-native';
 import { Formik } from 'formik';
 
 //icons
-import { Octicons } from '@expo/vector-icons';
+import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 
 
-import {StyledContainer, InnerContainer, PageLogo, PageTitle, SubTitle, StyledFormArea, LeftIcon, StyledInputLabel, StyledTextInput, RightIcon, Colors} from './../components/styles';
+import {
+    StyledContainer, 
+    InnerContainer, 
+    PageLogo, 
+    PageTitle, 
+    SubTitle, 
+    StyledFormArea, 
+    LeftIcon, 
+    StyledInputLabel, 
+    StyledTextInput, 
+    RightIcon, 
+    StyledButton, 
+    ButtonText, 
+    Colors,
+    MsgBox,
+    Line,
+    ExtraView,
+    ExtraText,
+    TextLink,
+    TextLinkContent
+} from './../components/styles';
 
 //Colors
-const { brand, darkLight } = Colors;
+const { brand, darkLight, primary } = Colors;
+
+//keyboard avoiding wrapper
+import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
 const Login = () => {
+
+    const [hidePassword, setHidePassword] = useState(true);
+
     return (
-        <StyledContainer>
+        <KeyboardAvoidingWrapper><StyledContainer>
             <StatusBar style="dark" />
             <InnerContainer>
                 <PageLogo resizeMode="cover" source={require('./../assets/img/c8.jpg')} />
@@ -39,21 +65,61 @@ const Login = () => {
                         value={values.email}
                         keyboardType="email-address"
                     />
-                </StyledFormArea>)}
 
+                    <MyTextInput 
+                        label="Password"
+                        icon="lock"
+                        placeholder="* * * * * * * *"
+                        placeholderTextColor={darkLight}
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}
+                        secureTextEntry={hidePassword}
+                        isPassword={true}
+                        hidePassword={hidePassword}
+                        setHidePassword={setHidePassword}
+                    />
+
+                    <MsgBox>...</MsgBox>
+
+                    <StyledButton onPress={handleSubmit}>
+                        <ButtonText>Login</ButtonText>
+                    </StyledButton>
+
+                    <Line />
+
+                    <StyledButton google={true} onPress={handleSubmit}>
+                        <Fontisto name="google" color={primary} size={25}/>
+                        <ButtonText google={true}>Sign in with Google</ButtonText>
+                    </StyledButton>
+                    <ExtraView>
+                        <ExtraText>Don't have an account already? </ExtraText>
+                        <TextLink>
+                            <TextLinkContent>Signup</TextLinkContent>
+                        </TextLink>
+                    </ExtraView>
+
+                </StyledFormArea>
+                )}
                 </Formik>
             </InnerContainer>
         </StyledContainer>
+        </KeyboardAvoidingWrapper>
     );
 };
 
-const MyTextInput = ({ label, icon, ...props }) => {
+const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
     return (<View>
         <LeftIcon>
             <Octicons name={icon} size={30} color={brand} />
         </LeftIcon>
         <StyledInputLabel>{label}</StyledInputLabel>
         <StyledTextInput {...props} />
+        {isPassword && (
+            <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight}/>
+            </RightIcon>
+        )}
     </View>);
 };
 
