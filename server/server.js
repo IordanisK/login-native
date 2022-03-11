@@ -12,7 +12,7 @@ const UserRouter = require('./api/User');
 const bodyParser = require('express').json;
 app.use(bodyParser());
 
-app.use('/use', UserRouter);
+app.use('/user', UserRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
