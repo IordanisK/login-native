@@ -1,7 +1,7 @@
 import React from 'react';
 
 //React navigation stack 
-import RootStack from '../flower_crib/client/navigators/RootStack';
+import RootStack from './navigators/RootStack';
 
 export default function App() {
   return (
